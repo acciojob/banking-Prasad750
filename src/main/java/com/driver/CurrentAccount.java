@@ -1,7 +1,5 @@
 package com.driver;
 
-import java.util.HashMap;
-
 public class CurrentAccount extends BankAccount{
     String tradeLicenseId; //consists of Uppercase English characters only
 
@@ -75,8 +73,8 @@ public class CurrentAccount extends BankAccount{
 
     public int getMaxIdx(int []arr)
     {
-        int max=-1;
-        int maxIdx;
+        int max=0;
+        int maxIdx=0;
         for(int i=0;i<arr.length;i++)
         {
             if(max<arr[i])
@@ -85,7 +83,7 @@ public class CurrentAccount extends BankAccount{
                 max=arr[i];
             }
         }
-        return max;
+        return maxIdx;
     }
 
     public String helperRearrange(String str,int []arr,int maxInd)
