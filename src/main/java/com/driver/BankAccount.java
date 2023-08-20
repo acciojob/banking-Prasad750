@@ -56,60 +56,37 @@ public class BankAccount {
         {
             throw new Exception("Account Number can not be generated");
         }
-        helper(digits,sum,"");
+       this.accountNumber= helper(digits,sum);
 
         return this.accountNumber;
     }
 
-    public boolean helper(int digits,int sum,String asf)
+    public String helper(int digits,int sum)
     {
-        if(sum==0 && digits==0)
-        {
-            this.accountNumber=asf;
-            return true;
-        }
-        if(sum<=0 || digits<=0)
-        {
-            return false;
+
+        //        remaining number
+        int rem = sum;
+        String accNo = "";
+            while(digits > 0 && rem > 0){
+                if(rem >= 9){
+                    rem = rem - 9;
+                    accNo = accNo + "9";
+                }
+                else{
+                    accNo = accNo + Integer.toString(rem);
+                    rem = 0;
+                }
+                digits--;
+            }
+            while(digits > 0){
+                accNo = accNo + "0";
+                digits--;
+            }
+            return accNo;
         }
 
-        for(int i=0;i<=9;i++)
-        {
-               if(helper(digits-1,sum-i,asf+i))
-               {
-                   return true;
-               }
-        }
 
-        return false ;
-//        //        remaining number
-//        int rem = sum;
-//        String accNo = "";
-//        if(digits*9 < sum){
-//            throw new Exception("Account Number can not be generated");
-//        }
-//        else{
-//            while(digits > 0 && rem > 0){
-//                if(rem >= 9){
-//                    rem = rem - 9;
-//                    accNo = accNo + "9";
-//                }
-//                else{
-//                    accNo = accNo + Integer.toString(rem);
-//                    rem = 0;
-//                }
-//                digits--;
-//            }
-//            while(digits > 0){
-//                accNo = accNo + "0";
-//                digits--;
-//            }
-//            return accNo;
-//        }
-////        return null
-//
 
-    }
 
     public void deposit(double amount) {
         //add amount to balance

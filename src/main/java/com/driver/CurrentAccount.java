@@ -31,9 +31,10 @@ public class CurrentAccount extends BankAccount{
         // If the license Id is valid, do nothing
         // If the characters of the license Id can be rearranged to create any valid license Id
         // If it is not possible, throw "Valid License can not be generated" Exception
-        int i=1,j=0;
+        int i=1;
         while (i<this.tradeLicenseId.length())
         {
+            int j=i-1;
             char a=this.tradeLicenseId.charAt(i);
             char b=this.tradeLicenseId.charAt(j);
 
@@ -43,30 +44,81 @@ public class CurrentAccount extends BankAccount{
                {
                    throw new Exception("Valid License can not be generated");
                }
+               break;
             }
+            i++;
         }
     }
 
     public boolean canRearrange(String str)
     {
-        int []arr =new int[123];
-        int max=Integer.MIN_VALUE;
+        int []arr =new int[26];
         for(int i=0;i<str.length();i++)
         {
-            arr[str.charAt(i)-0]++;
+            arr[str.charAt(i)-'A']++;
         }
 
-        for(int i:arr)
+        int maxIdx=getMaxIdx(arr);
+        //System.out.println((char) (arr[maxIdx]+'A'));
+
+        if(arr[maxIdx]>((str.length()+1)/2))
         {
-            max= Math.max(max,i);
+            return false;
         }
 
-        if(max>((str.length()+1)/2))
+        //String id=helperRearrange(str,arr,maxIdx);
+     //   System.out.println(id);
+
+        return true;
+    }
+
+    public int getMaxIdx(int []arr)
+    {
+        int max=-1;
+        int maxIdx;
+        for(int i=0;i<arr.length;i++)
         {
-            return true;
+            if(max<arr[i])
+            {
+                maxIdx=i;
+                max=arr[i];
+            }
+        }
+        return max;
+    }
+
+    public String helperRearrange(String str,int []arr,int maxInd)
+    {
+        String id="";
+        for (int i=0;i<str.length();i++)
+        {
+            id+=' ';
         }
 
-        return false;
+        char ch=(char) (maxInd+'A');
+        int maxCnt=arr[maxInd];
+        int idx=0;
+        while(maxCnt>0)
+        {
+            id=id.substring(0,idx)+ch+id.substring(idx+1);
+            maxCnt--;
+            idx+=2;
+        }
+
+        arr[maxInd]=0;
+        for(int i=0;i<arr.length;i++)
+        {
+            while(arr[i]>0)
+            {
+                ch=(char)(i+'A');
+                idx=(idx>str.length()) ? 1:idx;
+                id=id.substring(0,idx)+ch+id.substring(idx+1);
+                arr[i]--;
+                idx+=2;
+            }
+        }
+        return id;
+
     }
 
 }
