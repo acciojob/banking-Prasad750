@@ -43,11 +43,8 @@ public class CurrentAccount extends BankAccount{
     {
         for(int i=1;i<str.length();i++)
         {
-            int j=i-1;
-            char a=this.tradeLicenseId.charAt(i);
-            char b=this.tradeLicenseId.charAt(j);
 
-            if(a==b)
+            if( this.tradeLicenseId.charAt(i) == this.tradeLicenseId.charAt(i-1))
             {
                 return false;
             }
@@ -66,15 +63,14 @@ public class CurrentAccount extends BankAccount{
         int maxIdx=getMaxIdx(arr);
         //System.out.println((char) (arr[maxIdx]+'A'));
 
-        if(arr[maxIdx]>((str.length()+1)/2))
+        if(arr[maxIdx]<=((str.length()+1)/2))
         {
-            return false;
+            String id=helperRearrange(str,arr,maxIdx);
+            setTradeLicenseId(id);
+            return true;
         }
 
-        this.tradeLicenseId=helperRearrange(str,arr,maxIdx);
-     //   System.out.println(id);
-
-        return true;
+        return false;
     }
 
     public int getMaxIdx(int []arr)
@@ -116,7 +112,7 @@ public class CurrentAccount extends BankAccount{
             while(arr[i]>0)
             {
                 ch=(char)(i+'A');
-                idx=(idx>str.length()) ? 1:idx;
+                idx=(idx>=str.length()) ? 1:idx;
                 id=id.substring(0,idx)+ch+id.substring(idx+1);
                 arr[i]--;
                 idx+=2;
